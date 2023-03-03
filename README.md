@@ -1,5 +1,5 @@
 # SQL Script (Question 1)
-The SQL script for question 1 has been added to the root of this project called pr_GetOrderSummary
+The SQL script for question 1 has been added to the root of this project called pr_GetOrderSummary, I restored the Northwind 2019 database for this procedure.
 
 # Roulette (Question 2)
 This application has been created with Entity Framework and connects to a sql lite database. I have used dependency inject to inject the data context and the roulette service so that it is accessable to the application. Since there are finite options I have mapped the payout ratios in the SQL LITE database. There is also a UNIT Testing project that you can use to check the tests.
