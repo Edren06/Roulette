@@ -8,6 +8,9 @@ using Roulette.Services;
 
 namespace RouletteTest
 {
+    /// <summary>
+    /// Tests using an in memory database to test the application, we add the required records and test against that.
+    /// </summary>
     [TestClass]
     public class RouletteServiceTests
     {
