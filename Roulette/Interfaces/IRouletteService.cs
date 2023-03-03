@@ -3,6 +3,9 @@ using Roulette.Models;
 
 namespace Roulette.Interfaces
 {
+    /// <summary>
+    /// Interface for the roulette service in order for it to be injected.
+    /// </summary>
     public interface IRouletteService
     {
         Task<BetModel> PlaceBet(BetModel bet);

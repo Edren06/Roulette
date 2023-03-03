@@ -19,6 +19,12 @@ namespace Roulette.Services
             _dbContext = dbContext;
         }
 
+        /// <summary>
+        /// Placing the bet will pass through a bet model object from the API which will save into the bet table
+        /// </summary>
+        /// <param name="bet"></param>
+        /// <returns></returns>
+        /// <exception cref="ApplicationException"></exception>
         public async Task<BetModel> PlaceBet(BetModel bet)
         {
             var tableItem = await this.GetTableItemByName(bet.TableItemName);
@@ -43,6 +49,10 @@ namespace Roulette.Services
             return bet;
         }
 
+        /// <summary>
+        /// Spin will randomly select table items where the ball is land-able and save it into the database
+        /// </summary>
+        /// <returns></returns>
         public async Task<Spin> Spin()
         { 
             Spin spin = new Spin()
@@ -57,6 +67,10 @@ namespace Roulette.Services
             return spin;
         }
 
+        /// <summary>
+        //  Function to find where the ball has landed. 
+        /// </summary>
+        /// <returns></returns>
         public async Task<TableItem> GetWhereBallLanded()
         {
             Random rand = new Random();
@@ -66,6 +80,10 @@ namespace Roulette.Services
             return validSpaces.Skip(skipNumber).Take(1).First();
         }
 
+        /// <summary>
+        /// This function will check all bets with a null spin id (Bets placed before a spin) and assign a payout value to the bet.
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<Bet>> GetPayoutsFromLastSpin()
         {
             var lastBets = GetLatestBets().Result;
@@ -81,6 +99,12 @@ namespace Roulette.Services
             return lastBets;
         }
 
+        /// <summary>
+        /// Function to calculate the payout
+        /// </summary>
+        /// <param name="bet"></param>
+        /// <param name="spin"></param>
+        /// <returns></returns>
         public Bet CalculateBetPayout(Bet bet, Spin spin)
         {
             var betValues = this.GetAttributeFromTableItem(bet.TableItemId).Result;
@@ -108,41 +132,78 @@ namespace Roulette.Services
             return bet;
         }
 
+        /// <summary>
+        /// Get all the records in the spin history
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<Spin>> GetSpinHistory()
         {
             return await _dbContext.Spins.OrderByDescending(x => x.SpinDate).ToListAsync();
         }
 
+        /// <summary>
+        /// We get the tableItemId by the table item name
+        /// </summary>
+        /// <param name="tableItemName"></param>
+        /// <returns></returns>
         public async Task<TableItem> GetTableItemByName(string tableItemName)
         {
             return await _dbContext.TableItems.Where(x => x.Name == tableItemName).FirstOrDefaultAsync();
         }
 
+        /// <summary>
+        /// Function to get all the valid places where the ball can land
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<TableItem>> GetValidLandingSpots()
         {
             return await _dbContext.TableItems.Where(x => x.IsLandable == true).ToListAsync();
         }
 
+        /// <summary>
+        /// Get's the attributes of a table item, whether it fits into a particular category this is used for the non singular numbers
+        /// </summary>
+        /// <param name="tableItemId"></param>
+        /// <param name="numberAttributeId"></param>
+        /// <returns></returns>
         public async Task<TableItemAttribute> GetAttributeFromTableItemAttributes(int tableItemId, int numberAttributeId)
         {
             return await _dbContext.TableItemAttributes.Where(x => x.TableItemId == tableItemId && x.NumberAttributeId == numberAttributeId).FirstOrDefaultAsync();
         }
 
+        /// <summary>
+        /// Gets the attributes of the table item, whether it fits into a particular category, this is used for singular numbers
+        /// </summary>
+        /// <param name="tableItemId"></param>
+        /// <returns></returns>
         public async Task<TableItem> GetAttributeFromTableItem(int tableItemId)
         {
             return await _dbContext.TableItems.Where(x => x.TableItemId == tableItemId).FirstOrDefaultAsync();
         }
 
+        /// <summary>
+        /// Get an attribute of a number
+        /// </summary>
+        /// <param name="numberAttributeId"></param>
+        /// <returns></returns>
         public async Task<NumberAttribute> GetNumberAttribute(int numberAttributeId)
         {
             return await _dbContext.NumberAttributes.Where(x => x.NumberAttributeId == numberAttributeId).SingleOrDefaultAsync();
         }
 
+        /// <summary>
+        /// This gets the last spin that occured.
+        /// </summary>
+        /// <returns></returns>
         public async Task<Spin> GetLatestSpin()
         {
             return await _dbContext.Spins.OrderByDescending(x => x.SpinId).Take(1).SingleOrDefaultAsync();
         }
 
+        /// <summary>
+        /// This gets all the bets that have not been assigned to a spin (considered the latest bets).
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<Bet>> GetLatestBets()
         {
             return await _dbContext.Bets.Where(x => x.SpinId == null).ToListAsync();

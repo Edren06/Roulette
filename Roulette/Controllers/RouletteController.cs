@@ -7,6 +7,9 @@ using Roulette.Interfaces;
 
 namespace Roulette.Controllers
 {
+    /// <summary>
+    /// All the api calls required for the roulette machine
+    /// </summary>
     [ApiController]
     [Route("[controller]")]
     public class RouletteController : ControllerBase

@@ -4,6 +4,9 @@ using System.Text.Json;
 
 namespace Roulette.MiddleWare
 {
+    /// <summary>
+    /// Middleware that I found in order to use for global exception handling.
+    /// </summary>
     public class ExceptionMiddleWare
     {
         private readonly RequestDelegate _next;

@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Roulette.DataContext
 {
+    /// <summary>
+    /// Datacontext object used to connect to the SQLLite database, this is injected into the application in the program.cs file
+    /// </summary>
     public class SqlLiteContext : DbContext
     {
         public SqlLiteContext() { }

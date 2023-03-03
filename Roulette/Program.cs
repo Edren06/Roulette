@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+//Inject the data context
 builder.Services.AddDbContext<SqlLiteContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("SqlLite")));
 
 builder.Services.AddControllers();
@@ -15,6 +16,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//Inject the roulette service
 builder.Services.AddTransient<IRouletteService, RouletteService>();
 
 var app = builder.Build();
