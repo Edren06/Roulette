@@ -57,3 +57,4 @@ SecondColumn - (2:1)
 ThirdColumn - (2:1)
 
 # SQL Script
+The SQL script for question 1 has been added to the root of this project called pr_GetOrderSummary
